@@ -14,7 +14,11 @@ export default function CanvasPage() {
       <div className="flex flex-1 items-center justify-center min-h-[100dvh] bg-[#121212]">
         <div className="text-center">
           <div className="w-16 h-16 rounded-2xl bg-[#1a1a1a] border border-[rgba(255,255,255,0.07)] flex items-center justify-center mx-auto mb-4">
-            <TreeStructure weight="bold" size={28} className="text-[rgba(255,255,255,0.2)]" />
+            <TreeStructure
+              weight="bold"
+              size={28}
+              className="text-[rgba(255,255,255,0.2)]"
+            />
           </div>
           <p className="text-sm text-[rgba(255,255,255,0.4)] font-medium mb-3">
             No architecture loaded.

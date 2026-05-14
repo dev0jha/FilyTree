@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAppStore } from "@/stores/app-store";
-import { ApiKeyInput } from "@/components/ui/ApiKeyInput";
 export function Shell({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
   const [showKeyInput, setShowKeyInput] = useState(false);
@@ -20,18 +19,5 @@ export function Shell({ children }: { children: React.ReactNode }) {
     }
   }, [setGroqKey]);
   if (!mounted) return null;
-  return (
-    <>
-      {children}
-      {showKeyInput && (
-        <ApiKeyInput
-          onSave={(key) => {
-            setGroqKey(key);
-            localStorage.setItem("filytree-groq-key", key);
-            setShowKeyInput(false);
-          }}
-        />
-      )}
-    </>
-  );
+  return <>{children}</>;
 }
