@@ -39,6 +39,7 @@ export function HeroSection() {
           edges: result.tree.edges,
           score: result.score,
           issues: result.issues,
+          title: repoUrl.split('/').filter(Boolean).pop() || "Codebase"
         };
       }
       setTree(data);
@@ -59,13 +60,6 @@ export function HeroSection() {
           aria-hidden="true"
           className="absolute inset-0 z-[-1] size-full overflow-hidden"
         >
-          <div
-            className={cn(
-              "absolute -inset-x-20 inset-y-0 z-0 rounded-full",
-              "bg-[radial-gradient(ellipse_at_center,theme(--color-foreground/.1),transparent,transparent)]",
-              "blur-[50px]",
-            )}
-          />
           <div className="absolute inset-y-0 left-4 w-px bg-linear-to-b from-transparent via-border to-border md:left-8" />
           <div className="absolute inset-y-0 right-4 w-px bg-linear-to-b from-transparent via-border to-border md:right-8" />
           <div className="absolute inset-y-0 left-8 w-px bg-linear-to-b from-transparent via-border/50 to-border/50 md:left-12" />
@@ -78,7 +72,7 @@ export function HeroSection() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400/40 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500/80"></span>
               </div>
-              <span className="[text-shadow:_1px_0_oklch(0.7_0.2_20_/_0.3),_-1px_0_oklch(0.7_0.2_200_/_0.3)]">FilyTree AI</span>
+              <span className="[text-shadow:_1px_0_oklch(0.7_0.2_20_/_0.3),_-1px_0_oklch(0.7_0.2_200_/_0.3)]">Fily<span className="text-emerald-500">Tree</span> AI</span>
             </div>
           </div>
           <h1
@@ -87,7 +81,7 @@ export function HeroSection() {
               "fade-in slide-in-from-bottom-10 animate-in fill-mode-backwards delay-100 duration-500 ease-out",
             )}
           >
-            Visualize architecture from PRDs & repos
+            Visualize architecture from <span className="bg-linear-to-r from-blue-400 via-blue-500 to-blue-200 bg-clip-text text-transparent">PRDs</span> & <span className="bg-linear-to-r from-white via-white/80 to-white/40 bg-clip-text text-transparent">repos</span>
           </h1>
 
           <p
@@ -139,6 +133,12 @@ export function HeroSection() {
                 </FramerCtaButton>
               </div>
             </div>
+          </div>
+          <div className="mt-16 flex flex-col items-center gap-2 fade-in animate-in fill-mode-backwards delay-500 duration-700 ease-out">
+            <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground/30 text-center leading-relaxed">
+              design and develop by <br />
+              <span className="text-muted-foreground/60 font-bold tracking-[0.5em] ml-[0.5em]">DEV</span>
+            </p>
           </div>
         </div>
       </div>

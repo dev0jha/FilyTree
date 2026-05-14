@@ -11,6 +11,7 @@ const PRD_PROMPT = `You are a senior software architect. Convert the given PRD i
 Include both folders AND individual files to represent the full proposed structure.
 Return ONLY valid JSON with this exact structure:
 {
+  "projectName": "My Project",
   "nodes": [
     { "id": "src", "label": "src", "type": "folder", "children": ["app.tsx"], "reasoning": "Source root" },
     { "id": "app.tsx", "label": "app.tsx", "type": "file", "parent": "src", "children": [], "reasoning": "Main entry point" }
@@ -25,6 +26,7 @@ const REPO_PROMPT = `You are a senior software architect. Analyze this codebase 
 You MUST include every single file and folder provided in the input structure. Do not skip files.
 Return ONLY valid JSON with this exact structure:
 {
+  "projectName": "Project Name",
   "nodes": [
     { "id": "src", "label": "src", "type": "folder", "children": ["index.ts"], "reasoning": "Source directory" },
     { "id": "index.ts", "label": "index.ts", "type": "file", "parent": "src", "children": [], "reasoning": "Main entry file" }
@@ -99,9 +101,13 @@ export async function generateTreeFromPrd(prd: string, techStack?: string): Prom
     ? `Tech stack: ${techStack}\n\nPRD:\n${prd}`
     : `PRD:\n${prd}`;
   const raw = await callGroq(prompt, PRD_PROMPT);
-  const data = parseJson<TreeData>(raw);
-  setCache(key, data);
-  return data;
+  const data = parseJson<TreeData & { projectName?: string }>(raw);
+  const result: TreeData = {
+    ...data,
+    title: data.projectName || data.title || "New Project",
+  };
+  setCache(key, result);
+  return result;
 }
 export async function analyzeRepo(structure: string): Promise<RepoAnalysis> {
   const key = cacheKey("repo", structure);
@@ -114,9 +120,14 @@ export async function analyzeRepo(structure: string): Promise<RepoAnalysis> {
     score: number;
     issues: string[];
     suggestions: string[];
+    projectName?: string;
   }>(raw);
   const result: RepoAnalysis = {
-    tree: { nodes: parsed.nodes ?? [], edges: parsed.edges ?? [] },
+    tree: { 
+      nodes: parsed.nodes ?? [], 
+      edges: parsed.edges ?? [], 
+      title: parsed.projectName || "Codebase"
+    },
     score: parsed.score ?? 0,
     issues: parsed.issues ?? [],
     suggestions: parsed.suggestions ?? [],

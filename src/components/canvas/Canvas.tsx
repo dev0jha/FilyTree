@@ -71,7 +71,7 @@ export function Canvas() {
       d3Nodes = [
         {
           id: "__root__",
-          label: "project",
+          label: tree.title || "project",
           type: "folder",
           depth: 0,
           children: roots.map((r) => r.id),
@@ -204,6 +204,33 @@ export function Canvas() {
       .attr("font-weight", "500")
       .style("pointer-events", "none")
       .text((d) => d.data.label);
+
+    // Project Title above root node
+    const rootDescendants = root.descendants().filter(d => !d.parent || d.data.id === "__root__");
+    if (tree.title && rootDescendants.length > 0) {
+      const topRoot = rootDescendants[0];
+      gEl.append("text")
+        .attr("x", topRoot.x)
+        .attr("y", topRoot.y - 48)
+        .attr("text-anchor", "middle")
+        .attr("fill", "#ffffff")
+        .attr("font-size", 12)
+        .attr("font-family", "var(--font-geist-sans)")
+        .attr("font-weight", "700")
+        .attr("letter-spacing", "0.1em")
+        .attr("text-transform", "uppercase")
+        .style("pointer-events", "none")
+        .attr("class", "project-title-label")
+        .text(tree.title);
+      
+      gEl.append("path")
+        .attr("d", `M${topRoot.x},${topRoot.y - 38} L${topRoot.x},${topRoot.y - 20}`)
+        .attr("stroke", "rgba(255,255,255,0.4)")
+        .attr("stroke-width", 1)
+        .attr("fill", "none")
+        .attr("stroke-dasharray", "2,2")
+        .attr("class", "project-title-line");
+    }
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.05, 5])
       .on("zoom", (event) => {

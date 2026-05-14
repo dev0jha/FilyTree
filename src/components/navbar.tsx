@@ -22,12 +22,12 @@ export const Navbar = () => {
                 priority
               />
             </div>
-            <span className="font-bold text-xl tracking-tight text-white/90">FilyTree</span>
+            <span className="font-bold text-xl tracking-tight text-white/90">Fily<span className="text-emerald-500">Tree</span></span>
           </Link>
           
           <div className="flex items-center gap-4">
             <a 
-              href="https://github.com/yourusername/filytree" 
+              href="https://github.com/dev0jha/FilyTree" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center"

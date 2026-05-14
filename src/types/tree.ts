@@ -18,6 +18,7 @@ export interface TreeData {
   edges: TreeEdge[];
   score?: number;
   issues?: string[];
+  title?: string;
 }
 export interface AiExplanation {
   nodeId: string;
