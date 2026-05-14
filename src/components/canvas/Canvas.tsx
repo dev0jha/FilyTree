@@ -158,10 +158,10 @@ export function Canvas() {
     nodeGroup
       .append("circle")
       .attr("r", radius)
-      .attr("fill", "#1a1a1a")
+      .attr("fill", "rgba(26,26,26,0.7)")
       .attr("stroke", (d) => {
         if (d.data.issues?.length) return "#ef4444";
-        return d.data.id === selectedNodeId ? "#3d8a6b" : "rgba(255,255,255,0.08)";
+        return d.data.id === selectedNodeId ? "#3d8a6b" : "rgba(255,255,255,0.12)";
       })
       .attr("stroke-width", 2)
       .attr("class", "node-base");
@@ -234,7 +234,7 @@ export function Canvas() {
   if (!tree) {
     return (
       <div className="flex items-center justify-center h-full text-[rgba(255,255,255,0.2)] text-sm font-mono">
-        No tree loaded — generate one from the home page.
+        No tree loaded ΓÇö generate one from the home page.
       </div>
     );
   }

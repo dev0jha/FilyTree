@@ -1,6 +1,8 @@
 "use client";
 import { useTreeStore } from "@/stores/tree-store";
 import { getColorByPath } from "@/lib/tree";
+import Link from "next/link";
+import { useAppStore } from "@/stores/app-store";
 import {
   FolderOpen,
   Folder,
@@ -12,6 +14,7 @@ import {
   CaretDown,
   ArrowsOut,
   ArrowsIn,
+  ArrowLeft,
 } from "@phosphor-icons/react";
 const NODE_ICON: Record<string, React.ElementType> = {
   folder: FolderOpen,
@@ -30,11 +33,12 @@ export function Sidebar() {
     collapseAll,
     expandAll,
   } = useTreeStore();
+  const { setView } = useAppStore();
   const topLevel = tree?.nodes.filter((n) => !n.parent) ?? [];
   return (
-    <aside className="w-60 flex-shrink-0 flex flex-col overflow-hidden border-r border-[rgba(255,255,255,0.06)] bg-[#0f0f0f]">
+    <aside className="w-60 flex-shrink-0 flex flex-col overflow-hidden bg-[rgba(15,15,15,0.6)] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
       {}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[rgba(255,255,255,0.06)]">
+      <div className="flex items-center justify-between px-4 py-3">
         <span className="text-[10px] font-mono font-bold text-[rgba(255,255,255,0.3)] uppercase tracking-widest">
           Explorer
         </span>
@@ -78,12 +82,20 @@ export function Sidebar() {
       </div>
       {}
       {tree && (
-        <div className="px-4 py-2 border-t border-[rgba(255,255,255,0.05)]">
+        <div className="px-4 py-2">
           <span className="text-[10px] font-mono text-[rgba(255,255,255,0.2)]">
             {tree.nodes.length} nodes
           </span>
         </div>
       )}
+      <Link
+        href="/"
+        onClick={() => setView("home")}
+        className="flex items-center gap-2 px-4 py-3 text-xs font-bold text-[rgba(255,255,255,0.3)] hover:text-[#3d8a6b] transition-colors"
+      >
+        <ArrowLeft weight="bold" size={14} />
+        Back
+      </Link>
     </aside>
   );
 }
@@ -131,8 +143,8 @@ function TreeNodeItem({
         className={`
           flex items-center gap-1.5 rounded-lg py-1 pr-2 cursor-pointer transition-all text-xs
           ${isSelected
-            ? "bg-[rgba(61,138,107,0.15)] text-white"
-            : "text-[rgba(255,255,255,0.4)] hover:text-white hover:bg-[rgba(255,255,255,0.04)]"
+            ? "bg-[rgba(61,138,107,0.2)] text-white backdrop-blur-sm"
+            : "text-[rgba(255,255,255,0.4)] hover:text-white hover:bg-[rgba(255,255,255,0.06)]"
           }
         `}
         style={{ paddingLeft: `${8 + depth * 12}px` }}

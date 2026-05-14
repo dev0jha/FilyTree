@@ -27,9 +27,9 @@ export function AiPanel() {
     }
   }, [selectedNodeId, fetchExplanation, explanations]);
   return (
-    <aside className="w-80 flex-shrink-0 flex flex-col overflow-hidden border-l border-[rgba(255,255,255,0.06)] bg-[#0f0f0f]">
+    <aside className="w-80 flex-shrink-0 flex flex-col overflow-hidden bg-[rgba(15,15,15,0.6)] backdrop-blur-xl shadow-[-8px_0_32px_rgba(0,0,0,0.4)]">
       {}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-[rgba(255,255,255,0.06)]">
+      <div className="flex items-center gap-2 px-4 py-3">
         <Lightning weight="fill" size={14} className="text-[#3d8a6b]" />
         <span className="text-xs font-mono font-bold text-[rgba(255,255,255,0.4)] uppercase tracking-widest">
           AI Inspector
