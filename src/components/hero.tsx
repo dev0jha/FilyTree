@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import FramerCtaButton from "@/components/pixel-perfect/framer-cta-button";
 import Svg1 from "@/components/pixel-perfect/svg-1";
+import { Groq } from "@/svgs/groq";
+import { Nextjs } from "@/svgs/nextjs";
+import { TypeScript } from "@/svgs/typeScript";
 
 import { useTreeStore } from "@/stores/tree-store";
 import { useAppStore } from "@/stores/app-store";
@@ -65,7 +68,7 @@ export function HeroSection() {
           <div className="absolute inset-y-0 left-8 w-px bg-linear-to-b from-transparent via-border/50 to-border/50 md:left-12" />
           <div className="absolute inset-y-0 right-8 w-px bg-linear-to-b from-transparent via-border/50 to-border/50 md:right-12" />
         </div>
-        <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-5">
+        <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-6">
           <div className="fade-in animate-in fill-mode-backwards delay-0 duration-700 ease-out">
             <div className="group relative flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold tracking-[0.3em] uppercase text-white/80 transition-all hover:border-white/20 hover:bg-white/10">
               <div className="relative flex h-2 w-2">
@@ -98,7 +101,7 @@ export function HeroSection() {
             <div className="absolute -left-16 -top-16 opacity-20 pointer-events-none z-0">
               <Svg1 />
             </div>
-            <div className="relative rounded-2xl border border-[rgba(255,255,255,0.07)] bg-card p-6 shadow-sm z-10">
+            <div className="relative rounded-2xl border border-[rgba(255,255,255,0.07)] bg-card p-5 shadow-sm z-10">
               <p className="mb-4 text-center text-sm font-medium text-muted-foreground">
                 Analyze your PRD or GitHub repository
               </p>
@@ -134,7 +137,19 @@ export function HeroSection() {
               </div>
             </div>
           </div>
-          <div className="mt-16 flex flex-col items-center gap-2 fade-in animate-in fill-mode-backwards delay-500 duration-700 ease-out">
+
+          <div className="mt-8 flex flex-col items-center gap-3 fade-in animate-in fill-mode-backwards delay-500 duration-1000 ease-out">
+            <p className="text-[10px] font-mono uppercase tracking-[0.4em] text-muted-foreground/40">
+              Powered by
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-12">
+              <Nextjs className="h-8 w-auto" />
+              <TypeScript className="h-7 w-auto" />
+              <Groq className="h-8 w-auto" />
+            </div>
+          </div>
+
+          <div className="mt-8 flex flex-col items-center gap-2 fade-in animate-in fill-mode-backwards delay-500 duration-700 ease-out">
             <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground/30 text-center leading-relaxed">
               design and develop by <br />
               <span className="text-muted-foreground/60 font-bold tracking-[0.5em] ml-[0.5em]">DEV</span>
