@@ -36,7 +36,7 @@ export function Sidebar() {
   const { setView } = useAppStore();
   const topLevel = tree?.nodes.filter((n) => !n.parent) ?? [];
   return (
-    <aside className="w-60 flex-shrink-0 flex flex-col overflow-hidden bg-[rgba(15,15,15,0.6)] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+    <aside className="w-60 flex-shrink-0 flex flex-col overflow-hidden bg-[oklch(21%_0.006_285.885)] border-r border-[rgba(255,255,255,0.08)]">
       {}
       <div className="flex items-center justify-between px-4 py-3">
         <span className="text-[10px] font-mono font-bold text-[rgba(255,255,255,0.3)] uppercase tracking-widest">

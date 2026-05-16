@@ -35,7 +35,7 @@ const ICON_MAP: Record<string, any> = {
 };
 export function Canvas() {
   const svgRef = useRef<SVGSVGElement>(null);
-  const { tree, expandedNodes, viewport, setViewport, selectNode, selectedNodeId } =
+  const { tree, expandedNodes, viewport, setViewport, selectNode, selectedNodeId, toggleNode } =
     useTreeStore();
   const viewportRef = useRef(viewport);
   viewportRef.current = viewport;
@@ -89,12 +89,12 @@ export function Canvas() {
         .stratify<D3Node>()
         .id((d) => d.id)
         .parentId((d) => d.parent)(d3Nodes);
-      root = d3.tree<D3Node>().size([width - 200, height - 200])(stratified);
+      root = d3.tree<D3Node>().nodeSize([240, 280])(stratified);
     } catch (err) {
       console.error("[Canvas] layout error:", err);
       return;
     }
-    const gEl = g.attr("transform", "translate(100, 100)");
+    const gEl = g.attr("transform", `translate(${width / 2}, 100)`);
     const linkGroup = gEl.append("g")
       .attr("fill", "none")
       .attr("stroke", "rgba(255,255,255,0.08)")
@@ -122,6 +122,9 @@ export function Canvas() {
       .on("click", (event, d) => {
         event.stopPropagation();
         selectNode(d.data.id);
+        if (d.data.type === "folder") {
+          toggleNode(d.data.id);
+        }
       });
     const drag = d3.drag<SVGGElement, d3.HierarchyPointNode<D3Node>>()
       .on("start", function() {
@@ -146,7 +149,7 @@ export function Canvas() {
       });
     nodeGroup.call(drag as any);
     const radius = (d: d3.HierarchyPointNode<D3Node>) =>
-      d.data.type === "folder" ? 20 : 16;
+      d.data.type === "folder" ? 24 : 20;
     nodeGroup
       .filter((d) => d.data.id === selectedNodeId)
       .append("circle")
@@ -183,7 +186,7 @@ export function Canvas() {
       .style("pointer-events", "none")
       .html((d) => {
         const Icon = ICON_MAP[d.data.type] || FileTs;
-        return renderToStaticMarkup(<Icon size={radius(d) - 6} weight="fill" />);
+        return renderToStaticMarkup(<Icon size={radius(d) - 8} weight="fill" />);
       });
     nodeGroup
       .filter((d) => !!(d.data.issues?.length))
@@ -199,7 +202,7 @@ export function Canvas() {
       .attr("dy", (d) => radius(d) + 20)
       .attr("text-anchor", "middle")
       .attr("fill", "rgba(255,255,255,0.5)")
-      .attr("font-size", 11)
+      .attr("font-size", 13)
       .attr("font-family", "var(--font-geist-mono)")
       .attr("font-weight", "500")
       .style("pointer-events", "none")
@@ -214,7 +217,7 @@ export function Canvas() {
         .attr("y", topRoot.y - 48)
         .attr("text-anchor", "middle")
         .attr("fill", "#ffffff")
-        .attr("font-size", 12)
+        .attr("font-size", 16)
         .attr("font-family", "var(--font-geist-sans)")
         .attr("font-weight", "700")
         .attr("letter-spacing", "0.1em")
@@ -270,7 +273,7 @@ export function Canvas() {
       ref={svgRef}
       className="h-full w-full"
       style={{
-        background: "#0c0c0c",
+        background: "#121212",
         backgroundImage:
           "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
         backgroundSize: "32px 32px",

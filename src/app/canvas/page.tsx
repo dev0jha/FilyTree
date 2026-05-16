@@ -11,7 +11,7 @@ export default function CanvasPage() {
   const { setView } = useAppStore();
   if (!tree) {
     return (
-      <div className="flex flex-1 items-center justify-center min-h-[100dvh] bg-[#121212]">
+      <div className="flex flex-1 items-center justify-center min-h-[100dvh] bg-[oklch(21%_0.006_285.885)]">
         <div className="text-center">
           <div className="w-16 h-16 rounded-2xl bg-[#1a1a1a] border border-[rgba(255,255,255,0.07)] flex items-center justify-center mx-auto mb-4">
             <TreeStructure
@@ -36,7 +36,7 @@ export default function CanvasPage() {
     );
   }
   return (
-    <div className="flex min-h-[100dvh] bg-[#121212]">
+    <div className="flex min-h-[100dvh] bg-[oklch(21%_0.006_285.885)]">
       <Sidebar />
       <div className="flex flex-1 overflow-hidden">
         <Canvas />

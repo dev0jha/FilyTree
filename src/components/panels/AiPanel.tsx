@@ -27,7 +27,7 @@ export function AiPanel() {
     }
   }, [selectedNodeId, fetchExplanation, explanations]);
   return (
-    <aside className="w-80 flex-shrink-0 flex flex-col overflow-hidden bg-[rgba(15,15,15,0.6)] backdrop-blur-xl shadow-[-8px_0_32px_rgba(0,0,0,0.4)]">
+    <aside className="w-80 flex-shrink-0 flex flex-col overflow-hidden bg-[oklch(21%_0.006_285.885)] border-l border-[rgba(255,255,255,0.08)]">
       {}
       <div className="flex items-center gap-2 px-4 py-3">
         <Lightning weight="fill" size={14} className="text-[#3d8a6b]" />

@@ -34,7 +34,7 @@ export const useTreeStore = create<TreeState>((set, get) => ({
     }
     return set({
       tree,
-      expandedNodes: new Set(tree.nodes.map((n) => n.id)),
+      expandedNodes: new Set(tree.nodes.filter(n => !n.parent).map(n => n.id)),
       explanations: new Map(),
       selectedNodeId: null,
       error: null,
