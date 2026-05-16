@@ -12,8 +12,6 @@ import {
   Atom,
   CaretRight,
   CaretDown,
-  ArrowsOut,
-  ArrowsIn,
   ArrowLeft,
 } from "@phosphor-icons/react";
 const NODE_ICON: Record<string, React.ElementType> = {
@@ -42,22 +40,14 @@ export function Sidebar() {
         <span className="text-[10px] font-mono font-bold text-[rgba(255,255,255,0.3)] uppercase tracking-widest">
           Explorer
         </span>
-        <div className="flex items-center gap-1">
-          <button
-            onClick={expandAll}
-            title="Expand all"
-            className="p-1 rounded text-[rgba(255,255,255,0.25)] hover:text-white hover:bg-[rgba(255,255,255,0.06)] transition-all"
-          >
-            <ArrowsOut size={13} />
-          </button>
-          <button
-            onClick={collapseAll}
-            title="Collapse all"
-            className="p-1 rounded text-[rgba(255,255,255,0.25)] hover:text-white hover:bg-[rgba(255,255,255,0.06)] transition-all"
-          >
-            <ArrowsIn size={13} />
-          </button>
-        </div>
+        <Link
+          href="/"
+          onClick={() => setView("home")}
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] text-[10px] font-mono font-bold text-[rgba(255,255,255,0.4)] hover:text-white hover:bg-[rgba(255,255,255,0.08)] hover:border-[rgba(255,255,255,0.12)] transition-all uppercase tracking-widest"
+        >
+          <ArrowLeft weight="bold" size={11} />
+          Back
+        </Link>
       </div>
       {}
       <div className="flex-1 overflow-y-auto py-2">
@@ -88,14 +78,6 @@ export function Sidebar() {
           </span>
         </div>
       )}
-      <Link
-        href="/"
-        onClick={() => setView("home")}
-        className="flex items-center gap-2 px-4 py-3 text-xs font-bold text-[rgba(255,255,255,0.3)] hover:text-[#3d8a6b] transition-colors"
-      >
-        <ArrowLeft weight="bold" size={14} />
-        Back
-      </Link>
     </aside>
   );
 }
