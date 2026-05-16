@@ -1,10 +1,13 @@
 import { jsonrepair } from "jsonrepair";
-import type { TreeData, RepoAnalysis } from "@/types/tree";
+
+import type { RepoAnalysis, TreeData } from "@/types/tree";
+
 const API_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "llama-3.3-70b-versatile";
 function getApiKey(): string {
   if (typeof window === "undefined") return "";
-  const envKey = typeof process !== "undefined" ? process.env.NEXT_PUBLIC_GROQ_API_KEY : "";
+  const envKey =
+    typeof process !== "undefined" ? process.env.NEXT_PUBLIC_GROQ_API_KEY : "";
   return localStorage.getItem("filytree-groq-key") ?? envKey ?? "";
 }
 const PRD_PROMPT = `You are a senior software architect. Convert the given PRD into a complete software architecture tree.
@@ -58,7 +61,9 @@ async function callGroq(prompt: string, system: string): Promise<string> {
   });
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    throw new Error(`API error: ${res.status} ${res.statusText}${body ? ` - ${body.slice(0, 200)}` : ""}`);
+    throw new Error(
+      `API error: ${res.status} ${res.statusText}${body ? ` - ${body.slice(0, 200)}` : ""}`
+    );
   }
   const data = await res.json();
   return data.choices[0].message.content;
@@ -90,10 +95,12 @@ function getCache<T>(key: string): T | null {
 function setCache(key: string, data: unknown): void {
   try {
     sessionStorage.setItem(key, JSON.stringify(data));
-  } catch {
-  }
+  } catch {}
 }
-export async function generateTreeFromPrd(prd: string, techStack?: string): Promise<TreeData> {
+export async function generateTreeFromPrd(
+  prd: string,
+  techStack?: string
+): Promise<TreeData> {
   const key = cacheKey("prd", prd);
   const cached = getCache<TreeData>(key);
   if (cached) return cached;
@@ -113,7 +120,10 @@ export async function analyzeRepo(structure: string): Promise<RepoAnalysis> {
   const key = cacheKey("repo", structure);
   const cached = getCache<RepoAnalysis>(key);
   if (cached) return cached;
-  const raw = await callGroq(`Repository structure:\n${structure}`, REPO_PROMPT);
+  const raw = await callGroq(
+    `Repository structure:\n${structure}`,
+    REPO_PROMPT
+  );
   const parsed = parseJson<{
     nodes: RepoAnalysis["tree"]["nodes"];
     edges: RepoAnalysis["tree"]["edges"];
@@ -123,10 +133,10 @@ export async function analyzeRepo(structure: string): Promise<RepoAnalysis> {
     projectName?: string;
   }>(raw);
   const result: RepoAnalysis = {
-    tree: { 
-      nodes: parsed.nodes ?? [], 
-      edges: parsed.edges ?? [], 
-      title: parsed.projectName || "Codebase"
+    tree: {
+      nodes: parsed.nodes ?? [],
+      edges: parsed.edges ?? [],
+      title: parsed.projectName || "Codebase",
     },
     score: parsed.score ?? 0,
     issues: parsed.issues ?? [],
@@ -135,7 +145,10 @@ export async function analyzeRepo(structure: string): Promise<RepoAnalysis> {
   setCache(key, result);
   return result;
 }
-export async function getNodeExplanation(nodeId: string, tree: TreeData): Promise<string> {
+export async function getNodeExplanation(
+  nodeId: string,
+  tree: TreeData
+): Promise<string> {
   const context = JSON.stringify(tree.nodes.find((n) => n.id === nodeId));
   const raw = await callGroq(
     `Explain this node in the architecture tree:\n${context}\n\nKeep it concise, 2-3 sentences.`,

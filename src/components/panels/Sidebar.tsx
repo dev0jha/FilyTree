@@ -1,19 +1,22 @@
 "use client";
-import { useTreeStore } from "@/stores/tree-store";
-import { getColorByPath } from "@/lib/tree";
 import Link from "next/link";
-import { useAppStore } from "@/stores/app-store";
+
 import {
-  FolderOpen,
-  Folder,
-  FileTs,
-  Cpu,
-  Globe,
-  Atom,
-  CaretRight,
-  CaretDown,
   ArrowLeft,
+  Atom,
+  CaretDown,
+  CaretRight,
+  Cpu,
+  FileTs,
+  Folder,
+  FolderOpen,
+  Globe,
 } from "@phosphor-icons/react";
+
+import { getColorByPath } from "@/lib/tree";
+import { useAppStore } from "@/stores/app-store";
+import { useTreeStore } from "@/stores/tree-store";
+
 const NODE_ICON: Record<string, React.ElementType> = {
   folder: FolderOpen,
   file: FileTs,
@@ -34,16 +37,16 @@ export function Sidebar() {
   const { setView } = useAppStore();
   const topLevel = tree?.nodes.filter((n) => !n.parent) ?? [];
   return (
-    <aside className="w-60 flex-shrink-0 flex flex-col overflow-hidden bg-[oklch(21%_0.006_285.885)] border-r border-[rgba(255,255,255,0.08)]">
+    <aside className="flex w-60 flex-shrink-0 flex-col overflow-hidden border-r border-[rgba(255,255,255,0.08)] bg-[oklch(21%_0.006_285.885)]">
       {}
       <div className="flex items-center justify-between px-4 py-3">
-        <span className="text-[10px] font-mono font-bold text-[rgba(255,255,255,0.3)] uppercase tracking-widest">
+        <span className="font-mono text-[10px] font-bold tracking-widest text-[rgba(255,255,255,0.3)] uppercase">
           Explorer
         </span>
         <Link
           href="/"
           onClick={() => setView("home")}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] text-[10px] font-mono font-bold text-[rgba(255,255,255,0.4)] hover:text-white hover:bg-[rgba(255,255,255,0.08)] hover:border-[rgba(255,255,255,0.12)] transition-all uppercase tracking-widest"
+          className="flex items-center gap-1.5 rounded-md border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-2.5 py-1 font-mono text-[10px] font-bold tracking-widest text-[rgba(255,255,255,0.4)] uppercase transition-all hover:border-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.08)] hover:text-white"
         >
           <ArrowLeft weight="bold" size={11} />
           Back
@@ -52,9 +55,13 @@ export function Sidebar() {
       {}
       <div className="flex-1 overflow-y-auto py-2">
         {!tree ? (
-          <p className="text-xs text-[rgba(255,255,255,0.2)] px-4 py-3">No tree loaded</p>
+          <p className="px-4 py-3 text-xs text-[rgba(255,255,255,0.2)]">
+            No tree loaded
+          </p>
         ) : topLevel.length === 0 ? (
-          <p className="text-xs text-[rgba(255,255,255,0.2)] px-4 py-3">Empty tree</p>
+          <p className="px-4 py-3 text-xs text-[rgba(255,255,255,0.2)]">
+            Empty tree
+          </p>
         ) : (
           topLevel.map((node) => (
             <TreeNodeItem
@@ -73,7 +80,7 @@ export function Sidebar() {
       {}
       {tree && (
         <div className="px-4 py-2">
-          <span className="text-[10px] font-mono text-[rgba(255,255,255,0.2)]">
+          <span className="font-mono text-[10px] text-[rgba(255,255,255,0.2)]">
             {tree.nodes.length} nodes
           </span>
         </div>
@@ -122,32 +129,30 @@ function TreeNodeItem({
           onSelect(nodeId);
           if (isFolder && children.length > 0) onToggle(nodeId);
         }}
-        className={`
-          flex items-center gap-1.5 rounded-lg py-1 pr-2 cursor-pointer transition-all text-xs
-          ${isSelected
+        className={`flex cursor-pointer items-center gap-1.5 rounded-lg py-1 pr-2 text-xs transition-all ${
+          isSelected
             ? "bg-[rgba(61,138,107,0.2)] text-white backdrop-blur-sm"
-            : "text-[rgba(255,255,255,0.4)] hover:text-white hover:bg-[rgba(255,255,255,0.06)]"
-          }
-        `}
+            : "text-[rgba(255,255,255,0.4)] hover:bg-[rgba(255,255,255,0.06)] hover:text-white"
+        } `}
         style={{ paddingLeft: `${8 + depth * 12}px` }}
       >
         {}
         <span className="w-3 flex-shrink-0 text-[rgba(255,255,255,0.25)]">
           {isFolder && children.length > 0 ? (
-            isExpanded ? <CaretDown size={9} weight="bold" /> : <CaretRight size={9} weight="bold" />
+            isExpanded ? (
+              <CaretDown size={9} weight="bold" />
+            ) : (
+              <CaretRight size={9} weight="bold" />
+            )
           ) : null}
         </span>
         {}
-        <Icon
-          size={12}
-          weight="fill"
-          style={{ color, flexShrink: 0 }}
-        />
+        <Icon size={12} weight="fill" style={{ color, flexShrink: 0 }} />
         {}
-        <span className="truncate flex-1">{node.label}</span>
+        <span className="flex-1 truncate">{node.label}</span>
         {}
         {hasIssues && (
-          <span className="w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />
+          <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red-400" />
         )}
       </div>
       {}
@@ -167,7 +172,7 @@ function TreeNodeItem({
           ))}
           {children.length === 0 && (
             <div
-              className="text-[10px] text-[rgba(255,255,255,0.15)] py-0.5 italic"
+              className="py-0.5 text-[10px] text-[rgba(255,255,255,0.15)] italic"
               style={{ paddingLeft: `${20 + depth * 12}px` }}
             >
               empty

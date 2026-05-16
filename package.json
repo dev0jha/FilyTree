@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -40,6 +41,9 @@
     "zustand": "^5.0.13"
   },
   "devDependencies": {
-    "@types/node": "25.7.0"
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@types/node": "25.7.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-tailwindcss": "^0.8.0"
   }
 }

@@ -1,18 +1,21 @@
 "use client";
-import { useEffect, useRef, useCallback } from "react";
-import * as d3 from "d3";
-import { useTreeStore } from "@/stores/tree-store";
-import { getColorByPath } from "@/lib/tree";
-import {
-  FolderOpen,
-  FileTs,
-  Cpu,
-  Globe,
-  Atom,
-  Warning,
-  GithubLogo,
-} from "@phosphor-icons/react";
+import { useCallback, useEffect, useRef } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+
+import * as d3 from "d3";
+import {
+  Atom,
+  Cpu,
+  FileTs,
+  FolderOpen,
+  GithubLogo,
+  Globe,
+  Warning,
+} from "@phosphor-icons/react";
+
+import { getColorByPath } from "@/lib/tree";
+import { useTreeStore } from "@/stores/tree-store";
+
 interface D3Node extends d3.SimulationNodeDatum {
   id: string;
   label: string;
@@ -35,8 +38,15 @@ const ICON_MAP: Record<string, any> = {
 };
 export function Canvas() {
   const svgRef = useRef<SVGSVGElement>(null);
-  const { tree, expandedNodes, viewport, setViewport, selectNode, selectedNodeId, toggleNode } =
-    useTreeStore();
+  const {
+    tree,
+    expandedNodes,
+    viewport,
+    setViewport,
+    selectNode,
+    selectedNodeId,
+    toggleNode,
+  } = useTreeStore();
   const viewportRef = useRef(viewport);
   viewportRef.current = viewport;
   const render = useCallback(() => {
@@ -95,17 +105,21 @@ export function Canvas() {
       return;
     }
     const gEl = g.attr("transform", `translate(${width / 2}, 100)`);
-    const linkGroup = gEl.append("g")
+    const linkGroup = gEl
+      .append("g")
       .attr("fill", "none")
       .attr("stroke", "rgba(255,255,255,0.08)")
       .attr("stroke-width", 1.5);
     const updateLinks = () => {
-      linkGroup.selectAll("path")
+      linkGroup
+        .selectAll("path")
         .data(root.links())
         .join("path")
         .attr("d", (d: any) => {
-          const sx = d.source.x, sy = d.source.y;
-          const tx = d.target.x, ty = d.target.y;
+          const sx = d.source.x,
+            sy = d.source.y;
+          const tx = d.target.x,
+            ty = d.target.y;
           const midY = (sy + ty) / 2;
           return `M${sx},${sy}C${sx},${midY} ${tx},${midY} ${tx},${ty}`;
         });
@@ -126,11 +140,12 @@ export function Canvas() {
           toggleNode(d.data.id);
         }
       });
-    const drag = d3.drag<SVGGElement, d3.HierarchyPointNode<D3Node>>()
-      .on("start", function() {
+    const drag = d3
+      .drag<SVGGElement, d3.HierarchyPointNode<D3Node>>()
+      .on("start", function () {
         d3.select(this).style("cursor", "grabbing");
       })
-      .on("drag", function(event, d) {
+      .on("drag", function (event, d) {
         const dx = event.dx;
         const dy = event.dy;
         const move = (node: any) => {
@@ -144,7 +159,7 @@ export function Canvas() {
         nodeGroup.attr("transform", (nd: any) => `translate(${nd.x},${nd.y})`);
         updateLinks();
       })
-      .on("end", function() {
+      .on("end", function () {
         d3.select(this).style("cursor", "grab");
       });
     nodeGroup.call(drag as any);
@@ -164,11 +179,14 @@ export function Canvas() {
       .attr("fill", "rgba(26,26,26,0.7)")
       .attr("stroke", (d) => {
         if (d.data.issues?.length) return "#ef4444";
-        return d.data.id === selectedNodeId ? "#3d8a6b" : "rgba(255,255,255,0.12)";
+        return d.data.id === selectedNodeId
+          ? "#3d8a6b"
+          : "rgba(255,255,255,0.12)";
       })
       .attr("stroke-width", 2)
       .attr("class", "node-base");
-    nodeGroup.append("foreignObject")
+    nodeGroup
+      .append("foreignObject")
       .attr("x", (d) => -radius(d) / 2 - 2)
       .attr("y", (d) => -radius(d) / 2 - 2)
       .attr("width", (d) => radius(d) + 4)
@@ -186,10 +204,12 @@ export function Canvas() {
       .style("pointer-events", "none")
       .html((d) => {
         const Icon = ICON_MAP[d.data.type] || FileTs;
-        return renderToStaticMarkup(<Icon size={radius(d) - 8} weight="fill" />);
+        return renderToStaticMarkup(
+          <Icon size={radius(d) - 8} weight="fill" />
+        );
       });
     nodeGroup
-      .filter((d) => !!(d.data.issues?.length))
+      .filter((d) => !!d.data.issues?.length)
       .append("circle")
       .attr("r", 5)
       .attr("cx", (d) => radius(d) - 3)
@@ -209,10 +229,13 @@ export function Canvas() {
       .text((d) => d.data.label);
 
     // Project Title above root node
-    const rootDescendants = root.descendants().filter(d => !d.parent || d.data.id === "__root__");
+    const rootDescendants = root
+      .descendants()
+      .filter((d) => !d.parent || d.data.id === "__root__");
     if (tree.title && rootDescendants.length > 0) {
       const topRoot = rootDescendants[0];
-      gEl.append("text")
+      gEl
+        .append("text")
         .attr("x", topRoot.x)
         .attr("y", topRoot.y - 48)
         .attr("text-anchor", "middle")
@@ -225,16 +248,21 @@ export function Canvas() {
         .style("pointer-events", "none")
         .attr("class", "project-title-label")
         .text(tree.title);
-      
-      gEl.append("path")
-        .attr("d", `M${topRoot.x},${topRoot.y - 38} L${topRoot.x},${topRoot.y - 20}`)
+
+      gEl
+        .append("path")
+        .attr(
+          "d",
+          `M${topRoot.x},${topRoot.y - 38} L${topRoot.x},${topRoot.y - 20}`
+        )
         .attr("stroke", "rgba(255,255,255,0.4)")
         .attr("stroke-width", 1)
         .attr("fill", "none")
         .attr("stroke-dasharray", "2,2")
         .attr("class", "project-title-line");
     }
-    const zoom = d3.zoom<SVGSVGElement, unknown>()
+    const zoom = d3
+      .zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.05, 5])
       .on("zoom", (event) => {
         g.attr("transform", event.transform.toString());
@@ -263,7 +291,7 @@ export function Canvas() {
   }, [render]);
   if (!tree) {
     return (
-      <div className="flex items-center justify-center h-full text-[rgba(255,255,255,0.2)] text-sm font-mono">
+      <div className="flex h-full items-center justify-center font-mono text-sm text-[rgba(255,255,255,0.2)]">
         No tree loaded ΓÇö generate one from the home page.
       </div>
     );

@@ -1,4 +1,5 @@
 import JSZip from "jszip";
+
 interface ZipEntry {
   path: string;
   type: "file" | "folder";
@@ -17,7 +18,8 @@ export async function extractZip(file: File): Promise<string> {
   return entries
     .map((e) => {
       const depth = e.path.split("/").length;
-      const prefix = "  ".repeat(depth - 1) + (e.type === "folder" ? "[dir]" : "[file]");
+      const prefix =
+        "  ".repeat(depth - 1) + (e.type === "folder" ? "[dir]" : "[file]");
       return `${prefix} ${e.path}`;
     })
     .join("\n");

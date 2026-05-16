@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
+
 import { cn } from "@/lib/utils";
 
 export type FramerCtaVariant = "dark" | "light";
 
-interface FramerCtaButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface FramerCtaButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: FramerCtaVariant;
 }
 
@@ -18,8 +18,8 @@ const FramerCtaButton = React.forwardRef<
     <button
       ref={ref}
       className={cn(
-        "relative inline-flex items-center justify-center gap-2.5 h-11 px-5 rounded-2xl transition-transform duration-200 active:scale-[0.98]",
-        className,
+        "relative inline-flex h-11 items-center justify-center gap-2.5 rounded-2xl px-5 transition-transform duration-200 active:scale-[0.98]",
+        className
       )}
       style={{
         background: isDark
@@ -32,7 +32,7 @@ const FramerCtaButton = React.forwardRef<
       {...props}
     >
       <span
-        className="font-medium text-[15px] leading-7 tracking-[-0.02em]"
+        className="text-[15px] leading-7 font-medium tracking-[-0.02em]"
         style={{
           color: isDark ? "rgb(255, 255, 255)" : "rgb(0, 0, 0)",
           fontFamily:

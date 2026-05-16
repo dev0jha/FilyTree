@@ -1,4 +1,5 @@
 import type { TreeData, TreeNode } from "@/types/tree";
+
 export function getSubtree(data: TreeData, nodeId: string): TreeData {
   const node = data.nodes.find((n) => n.id === nodeId);
   if (!node) return { nodes: [], edges: [] };
@@ -16,7 +17,11 @@ export function getSubtree(data: TreeData, nodeId: string): TreeData {
     edges: data.edges.filter((e) => ids.has(e.from) && ids.has(e.to)),
   };
 }
-export function moveNode(data: TreeData, nodeId: string, newParent: string): TreeData {
+export function moveNode(
+  data: TreeData,
+  nodeId: string,
+  newParent: string
+): TreeData {
   const node = data.nodes.find((n) => n.id === nodeId);
   const oldParent = data.nodes.find((n) => n.id === node?.parent);
   const target = data.nodes.find((n) => n.id === newParent);
@@ -48,7 +53,8 @@ export function flattenTree(nodes: TreeNode[]): string[] {
 }
 export function getColorByPath(path: string | undefined, type: string): string {
   if (!path) return "#3b82f6";
-  if (path.startsWith("frontend") || path.includes("frontend")) return "#3b82f6";
+  if (path.startsWith("frontend") || path.includes("frontend"))
+    return "#3b82f6";
   if (path.startsWith("backend") || path.includes("backend")) return "#22c55e";
   if (path.includes("ai") || path.includes("ai-module")) return "#eab308";
   if (type === "api") return "#a855f7";

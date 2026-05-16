@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
+
 import { useAppStore } from "@/stores/app-store";
+
 export function Shell({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
   const [showKeyInput, setShowKeyInput] = useState(false);

@@ -1,16 +1,17 @@
-import { HeroSection } from '@/components/hero'
-import { Navbar } from '@/components/navbar'
-import React from 'react'
+import React from "react";
+
+import { HeroSection } from "@/components/hero";
+import { Navbar } from "@/components/navbar";
 
 function page() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1">
         <HeroSection />
       </main>
     </div>
-  )
+  );
 }
 
-export default page
+export default page;

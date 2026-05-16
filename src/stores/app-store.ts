@@ -1,5 +1,6 @@
 "use client";
 import { create } from "zustand";
+
 interface AppState {
   groqKey: string;
   view: "home" | "canvas" | "analysis";

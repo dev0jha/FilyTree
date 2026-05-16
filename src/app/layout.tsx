@@ -1,6 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { Shell } from "./shell";
+
 import "./globals.css";
+import { Shell } from "./shell";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -19,7 +21,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} dark`}
     >
-      <body className="antialiased bg-[#121212] text-foreground min-h-screen">
+      <body className="text-foreground min-h-screen bg-[#121212] antialiased">
         <Shell>{children}</Shell>
       </body>
     </html>

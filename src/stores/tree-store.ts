@@ -1,7 +1,9 @@
 "use client";
 import { create } from "zustand";
-import type { TreeData, AiExplanation } from "@/types/tree";
+
 import { getNodeExplanation } from "@/lib/groq";
+import type { AiExplanation, TreeData } from "@/types/tree";
+
 interface TreeState {
   tree: TreeData | null;
   loading: boolean;
@@ -34,7 +36,9 @@ export const useTreeStore = create<TreeState>((set, get) => ({
     }
     return set({
       tree,
-      expandedNodes: new Set(tree.nodes.filter(n => !n.parent).map(n => n.id)),
+      expandedNodes: new Set(
+        tree.nodes.filter((n) => !n.parent).map((n) => n.id)
+      ),
       explanations: new Map(),
       selectedNodeId: null,
       error: null,
@@ -68,7 +72,6 @@ export const useTreeStore = create<TreeState>((set, get) => ({
         next.set(nodeId, { nodeId, summary: raw });
         return { explanations: next };
       });
-    } catch {
-    }
+    } catch {}
   },
 }));
